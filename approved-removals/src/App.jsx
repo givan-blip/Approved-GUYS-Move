@@ -3,7 +3,7 @@ import {
   Truck, MapPin, Plus, Minus, ChevronRight, ChevronLeft, Settings2,
   Check, CreditCard, Lock, Trash2, Inbox, Sliders, Boxes, Search,
   ArrowRight, Camera, PenLine, RotateCcw, X, Phone, MessageSquare,
-  Navigation, PackagePlus, ClipboardList, User, Star
+  Navigation, PackagePlus, ClipboardList, User, Star, MoreVertical
 } from "lucide-react";
 import { fetchJobs, fetchLeads, saveBooking, persistJob, saveLead } from "./lib/supabase";
 
@@ -27,46 +27,172 @@ const font = {
 
 /* ---- catalogue: name, category, volume m³, weight kg ---- */
 const defaultCatalogue = [
-  { id: "two-seater-sofa", name: "Two Seater Sofa", cat: "Sofas", m3: 1.2, kg: 40 },
-  { id: "three-seater-sofa", name: "Three Seater Sofa", cat: "Sofas", m3: 1.6, kg: 55 },
-  { id: "four-seater-sofa", name: "Four Seater Sofa", cat: "Sofas", m3: 2.0, kg: 70 },
-  { id: "l-shaped-sofa", name: "L Shaped Sofa", cat: "Sofas", m3: 2.4, kg: 90 },
-  { id: "armchair", name: "Armchair", cat: "Sofas", m3: 0.6, kg: 25 },
+  // ---- Sofas & Armchairs ----
+  { id: "two-seater-sofa", name: "Two Seater Sofa", cat: "Sofas & Armchairs", m3: 1.2, kg: 40 },
+  { id: "three-seater-sofa", name: "Three Seater Sofa", cat: "Sofas & Armchairs", m3: 1.6, kg: 55 },
+  { id: "four-seater-sofa", name: "Four Seater Sofa", cat: "Sofas & Armchairs", m3: 2.0, kg: 70 },
+  { id: "l-shaped-sofa", name: "L Shaped Sofa", cat: "Sofas & Armchairs", m3: 2.4, kg: 90 },
+  { id: "corner-sofa", name: "Corner Sofa", cat: "Sofas & Armchairs", m3: 2.4, kg: 95 },
+  { id: "sofa-bed", name: "Sofa Bed", cat: "Sofas & Armchairs", m3: 1.6, kg: 75 },
+  { id: "recliner", name: "Recliner Chair", cat: "Sofas & Armchairs", m3: 0.9, kg: 45 },
+  { id: "armchair", name: "Armchair", cat: "Sofas & Armchairs", m3: 0.6, kg: 25 },
+  { id: "footstool", name: "Footstool / Pouffe", cat: "Sofas & Armchairs", m3: 0.15, kg: 6 },
+  { id: "beanbag", name: "Beanbag", cat: "Sofas & Armchairs", m3: 0.3, kg: 5 },
+
+  // ---- Beds & Mattresses ----
   { id: "single-bed", name: "Single Bed & Mattress", cat: "Beds & Mattresses", m3: 1.0, kg: 45 },
   { id: "double-bed", name: "Double Bed & Mattress", cat: "Beds & Mattresses", m3: 1.5, kg: 60 },
   { id: "kingsize-bed", name: "Kingsize Bed & Mattress", cat: "Beds & Mattresses", m3: 1.8, kg: 75 },
+  { id: "superking-bed", name: "Super King Bed & Mattress", cat: "Beds & Mattresses", m3: 2.1, kg: 85 },
+  { id: "bunk-bed", name: "Bunk Bed", cat: "Beds & Mattresses", m3: 1.6, kg: 70 },
+  { id: "cot", name: "Cot / Toddler Bed", cat: "Beds & Mattresses", m3: 0.6, kg: 20 },
   { id: "single-mattress", name: "Single Mattress", cat: "Beds & Mattresses", m3: 0.4, kg: 15 },
   { id: "double-mattress", name: "Double Mattress", cat: "Beds & Mattresses", m3: 0.6, kg: 25 },
+  { id: "king-mattress", name: "Kingsize Mattress", cat: "Beds & Mattresses", m3: 0.75, kg: 30 },
+  { id: "headboard", name: "Headboard", cat: "Beds & Mattresses", m3: 0.3, kg: 12 },
+  { id: "divan-base", name: "Divan Base", cat: "Beds & Mattresses", m3: 0.9, kg: 35 },
+
+  // ---- Wardrobes & Storage ----
   { id: "single-wardrobe", name: "Single Wardrobe", cat: "Wardrobes & Storage", m3: 0.8, kg: 40 },
   { id: "double-wardrobe", name: "Double Wardrobe", cat: "Wardrobes & Storage", m3: 1.4, kg: 65 },
   { id: "triple-wardrobe", name: "Triple Wardrobe", cat: "Wardrobes & Storage", m3: 2.0, kg: 95 },
   { id: "chest-drawers", name: "Chest Of Drawers", cat: "Wardrobes & Storage", m3: 0.7, kg: 35 },
+  { id: "tallboy", name: "Tallboy", cat: "Wardrobes & Storage", m3: 0.9, kg: 45 },
   { id: "bookcase", name: "Bookcase", cat: "Wardrobes & Storage", m3: 0.6, kg: 30 },
-  { id: "coffee-table", name: "Coffee Table", cat: "Tables & Chairs", m3: 0.4, kg: 15 },
-  { id: "dining-4", name: "4 Seater Dining Table & Chairs", cat: "Tables & Chairs", m3: 1.2, kg: 45 },
-  { id: "dining-6", name: "6 Seater Dining Table & Chairs", cat: "Tables & Chairs", m3: 1.6, kg: 60 },
-  { id: "office-desk", name: "Office Desk", cat: "Tables & Chairs", m3: 0.8, kg: 35 },
-  { id: "office-chair", name: "Office Chair", cat: "Tables & Chairs", m3: 0.4, kg: 12 },
-  { id: "bedside-table", name: "Bedside Table", cat: "Tables & Chairs", m3: 0.2, kg: 10 },
-  { id: "garden-chair", name: "Garden Chair", cat: "Tables & Chairs", m3: 0.2, kg: 5 },
-  { id: "fridge", name: "Fridge", cat: "Appliances", m3: 0.8, kg: 45 },
-  { id: "fridge-freezer", name: "Fridge Freezer", cat: "Appliances", m3: 1.0, kg: 70 },
-  { id: "washing-machine", name: "Washing Machine", cat: "Appliances", m3: 0.5, kg: 70 },
-  { id: "tumble-dryer", name: "Tumble Dryer", cat: "Appliances", m3: 0.5, kg: 35 },
-  { id: "large-tv", name: 'Large TV (over 40")', cat: "Appliances", m3: 0.3, kg: 20 },
+  { id: "shelf", name: "Shelf / Shelving Unit", cat: "Wardrobes & Storage", m3: 0.4, kg: 20 },
+  { id: "sideboard", name: "Sideboard", cat: "Wardrobes & Storage", m3: 1.0, kg: 50 },
+  { id: "display-cabinet", name: "Display Cabinet", cat: "Wardrobes & Storage", m3: 1.0, kg: 55 },
+  { id: "corner-cabinet", name: "Corner Cabinet", cat: "Wardrobes & Storage", m3: 0.8, kg: 45 },
+  { id: "cd-cabinet", name: "CD / DVD Cabinet", cat: "Wardrobes & Storage", m3: 0.3, kg: 15 },
+  { id: "bathroom-cabinet", name: "Bathroom Cabinet", cat: "Wardrobes & Storage", m3: 0.2, kg: 12 },
+  { id: "storage-unit", name: "Storage Unit", cat: "Wardrobes & Storage", m3: 0.8, kg: 35 },
+  { id: "filing-cabinet", name: "Filing Cabinet", cat: "Wardrobes & Storage", m3: 0.4, kg: 30 },
+  { id: "ottoman", name: "Ottoman / Storage Bench", cat: "Wardrobes & Storage", m3: 0.4, kg: 20 },
+  { id: "coat-stand", name: "Coat Stand", cat: "Wardrobes & Storage", m3: 0.2, kg: 8 },
+  { id: "shoe-rack", name: "Shoe Rack", cat: "Wardrobes & Storage", m3: 0.2, kg: 8 },
+
+  // ---- Tables ----
+  { id: "coffee-table", name: "Coffee Table", cat: "Tables", m3: 0.4, kg: 15 },
+  { id: "dining-table-4", name: "4 Seater Dining Table", cat: "Tables", m3: 0.9, kg: 30 },
+  { id: "dining-table-6", name: "6 Seater Dining Table", cat: "Tables", m3: 1.3, kg: 45 },
+  { id: "dining-4", name: "4 Seater Dining Table & Chairs", cat: "Tables", m3: 1.2, kg: 45 },
+  { id: "dining-6", name: "6 Seater Dining Table & Chairs", cat: "Tables", m3: 1.6, kg: 60 },
+  { id: "office-desk", name: "Office Desk", cat: "Tables", m3: 0.8, kg: 35 },
+  { id: "computer-desk", name: "Computer Desk", cat: "Tables", m3: 0.6, kg: 28 },
+  { id: "dressing-table", name: "Dressing Table", cat: "Tables", m3: 0.7, kg: 30 },
+  { id: "bedside-table", name: "Bedside Table", cat: "Tables", m3: 0.2, kg: 10 },
+  { id: "side-table", name: "Side Table", cat: "Tables", m3: 0.2, kg: 10 },
+  { id: "nest-tables", name: "Nest Of Tables", cat: "Tables", m3: 0.3, kg: 15 },
+  { id: "console-table", name: "Console / Hall Table", cat: "Tables", m3: 0.4, kg: 18 },
+  { id: "bureau", name: "Bureau / Writing Desk", cat: "Tables", m3: 0.7, kg: 40 },
+
+  // ---- Chairs & Seating ----
+  { id: "dining-chair", name: "Dining Chair", cat: "Chairs & Seating", m3: 0.2, kg: 6 },
+  { id: "office-chair", name: "Office Chair", cat: "Chairs & Seating", m3: 0.4, kg: 12 },
+  { id: "folding-chair", name: "Folding Chair", cat: "Chairs & Seating", m3: 0.1, kg: 4 },
+  { id: "stool", name: "Stool / Bar Stool", cat: "Chairs & Seating", m3: 0.15, kg: 6 },
+  { id: "rocking-chair", name: "Rocking Chair", cat: "Chairs & Seating", m3: 0.5, kg: 18 },
+  { id: "bench", name: "Bench", cat: "Chairs & Seating", m3: 0.4, kg: 20 },
+  { id: "high-chair", name: "High Chair", cat: "Chairs & Seating", m3: 0.2, kg: 6 },
+
+  // ---- Appliances & Kitchen ----
+  { id: "fridge", name: "Fridge", cat: "Appliances & Kitchen", m3: 0.8, kg: 45 },
+  { id: "fridge-freezer", name: "Fridge Freezer", cat: "Appliances & Kitchen", m3: 1.0, kg: 70 },
+  { id: "american-fridge", name: "American Fridge Freezer", cat: "Appliances & Kitchen", m3: 1.4, kg: 110 },
+  { id: "chest-freezer", name: "Chest Freezer", cat: "Appliances & Kitchen", m3: 0.9, kg: 60 },
+  { id: "washing-machine", name: "Washing Machine", cat: "Appliances & Kitchen", m3: 0.5, kg: 70 },
+  { id: "tumble-dryer", name: "Tumble Dryer", cat: "Appliances & Kitchen", m3: 0.5, kg: 35 },
+  { id: "washer-dryer", name: "Washer Dryer", cat: "Appliances & Kitchen", m3: 0.55, kg: 75 },
+  { id: "dishwasher", name: "Dishwasher", cat: "Appliances & Kitchen", m3: 0.5, kg: 45 },
+  { id: "cooker", name: "Cooker / Oven", cat: "Appliances & Kitchen", m3: 0.6, kg: 55 },
+  { id: "range-cooker", name: "Range Cooker", cat: "Appliances & Kitchen", m3: 1.0, kg: 90 },
+  { id: "microwave", name: "Microwave Oven", cat: "Appliances & Kitchen", m3: 0.1, kg: 15 },
+  { id: "small-appliance", name: "Small Kitchen Appliance", cat: "Appliances & Kitchen", m3: 0.05, kg: 5 },
+
+  // ---- Electronics ----
+  { id: "large-tv", name: 'Large TV (over 40")', cat: "Electronics", m3: 0.3, kg: 20 },
+  { id: "medium-tv", name: 'Medium TV (30-40")', cat: "Electronics", m3: 0.2, kg: 12 },
+  { id: "small-tv", name: 'Small TV (under 30")', cat: "Electronics", m3: 0.1, kg: 7 },
+  { id: "tv-stand", name: "TV Stand", cat: "Electronics", m3: 0.5, kg: 25 },
+  { id: "computer", name: "Computer / PC Tower", cat: "Electronics", m3: 0.15, kg: 12 },
+  { id: "monitor", name: "Monitor", cat: "Electronics", m3: 0.1, kg: 6 },
+  { id: "printer", name: "Printer", cat: "Electronics", m3: 0.1, kg: 8 },
+  { id: "speakers", name: "HiFi / Speakers", cat: "Electronics", m3: 0.2, kg: 12 },
+  { id: "console", name: "Games Console", cat: "Electronics", m3: 0.05, kg: 4 },
+  { id: "piano-keyboard", name: "Piano Keyboard", cat: "Electronics", m3: 0.3, kg: 20 },
+  { id: "digital-piano", name: "Digital Piano", cat: "Electronics", m3: 0.4, kg: 40 },
+  { id: "upright-piano", name: "Upright Piano", cat: "Electronics", m3: 1.2, kg: 200 },
+
+  // ---- Mirrors, Art & Decor ----
+  { id: "full-length-mirror", name: "Full Length Mirror", cat: "Mirrors, Art & Decor", m3: 0.15, kg: 10 },
+  { id: "large-mirror", name: "Large Mirror", cat: "Mirrors, Art & Decor", m3: 0.1, kg: 8 },
+  { id: "small-mirror", name: "Small Mirror", cat: "Mirrors, Art & Decor", m3: 0.05, kg: 4 },
+  { id: "large-picture", name: "Large Picture Frame", cat: "Mirrors, Art & Decor", m3: 0.1, kg: 6 },
+  { id: "small-picture", name: "Small Picture Frame", cat: "Mirrors, Art & Decor", m3: 0.03, kg: 2 },
+  { id: "painting", name: "Painting / Canvas", cat: "Mirrors, Art & Decor", m3: 0.05, kg: 3 },
+  { id: "wall-clock", name: "Wall Clock", cat: "Mirrors, Art & Decor", m3: 0.03, kg: 2 },
+  { id: "grandfather-clock", name: "Grandfather Clock", cat: "Mirrors, Art & Decor", m3: 0.4, kg: 40 },
+  { id: "floor-lamp", name: "Floor Lamp", cat: "Mirrors, Art & Decor", m3: 0.15, kg: 6 },
+  { id: "table-lamp", name: "Table Lamp", cat: "Mirrors, Art & Decor", m3: 0.05, kg: 3 },
+  { id: "rug", name: "Rug (rolled)", cat: "Mirrors, Art & Decor", m3: 0.15, kg: 12 },
+  { id: "curtains", name: "Curtains / Blinds", cat: "Mirrors, Art & Decor", m3: 0.1, kg: 6 },
+  { id: "vase", name: "Vase / Ornament", cat: "Mirrors, Art & Decor", m3: 0.03, kg: 3 },
+  { id: "ironing-board", name: "Ironing Board", cat: "Mirrors, Art & Decor", m3: 0.1, kg: 6 },
+  { id: "clothes-airer", name: "Clothes Airer / Drying Rack", cat: "Mirrors, Art & Decor", m3: 0.1, kg: 5 },
+  { id: "bin", name: "Bin", cat: "Mirrors, Art & Decor", m3: 0.1, kg: 4 },
+
+  // ---- Garden & Outdoor ----
+  { id: "garden-table", name: "Garden Table", cat: "Garden & Outdoor", m3: 0.6, kg: 20 },
+  { id: "garden-chair", name: "Garden Chair", cat: "Garden & Outdoor", m3: 0.2, kg: 5 },
+  { id: "garden-bench", name: "Garden Bench", cat: "Garden & Outdoor", m3: 0.5, kg: 25 },
+  { id: "parasol", name: "Parasol", cat: "Garden & Outdoor", m3: 0.15, kg: 8 },
+  { id: "bbq", name: "BBQ", cat: "Garden & Outdoor", m3: 0.4, kg: 25 },
+  { id: "plant-small", name: "Small Potted Plant", cat: "Garden & Outdoor", m3: 0.06, kg: 6 },
+  { id: "plant-large", name: "Large Potted Plant", cat: "Garden & Outdoor", m3: 0.2, kg: 25 },
+  { id: "plant-flowers", name: "Plant / Flowers", cat: "Garden & Outdoor", m3: 0.05, kg: 4 },
+  { id: "bird-table", name: "Bird Table", cat: "Garden & Outdoor", m3: 0.2, kg: 8 },
+  { id: "lawn-mower", name: "Lawn Mower", cat: "Garden & Outdoor", m3: 0.3, kg: 25 },
+  { id: "wheelbarrow", name: "Wheelbarrow", cat: "Garden & Outdoor", m3: 0.4, kg: 18 },
+  { id: "water-butt", name: "Water Butt", cat: "Garden & Outdoor", m3: 0.4, kg: 12 },
+  { id: "bicycle", name: "Bicycle", cat: "Garden & Outdoor", m3: 0.4, kg: 12 },
+  { id: "kids-bike", name: "Kids' Bike", cat: "Garden & Outdoor", m3: 0.2, kg: 8 },
+
+  // ---- Tools & DIY ----
+  { id: "tool-box", name: "Tool Box", cat: "Tools & DIY", m3: 0.05, kg: 20 },
+  { id: "tools", name: "Tools (box of)", cat: "Tools & DIY", m3: 0.06, kg: 22 },
+  { id: "step-ladder", name: "Step Ladder", cat: "Tools & DIY", m3: 0.15, kg: 8 },
+  { id: "extension-ladder", name: "Extension Ladder", cat: "Tools & DIY", m3: 0.2, kg: 15 },
+  { id: "garden-spade", name: "Garden Spade / Fork", cat: "Tools & DIY", m3: 0.05, kg: 3 },
+  { id: "workbench", name: "Workbench", cat: "Tools & DIY", m3: 0.4, kg: 30 },
+  { id: "power-tools", name: "Drill / Power Tools", cat: "Tools & DIY", m3: 0.03, kg: 6 },
+
+  // ---- Fitness ----
+  { id: "treadmill", name: "Treadmill", cat: "Fitness", m3: 1.2, kg: 85 },
+  { id: "exercise-bike", name: "Exercise Bike", cat: "Fitness", m3: 0.4, kg: 45 },
+  { id: "cross-trainer", name: "Cross Trainer", cat: "Fitness", m3: 0.6, kg: 60 },
+  { id: "rowing-machine", name: "Rowing Machine", cat: "Fitness", m3: 0.4, kg: 35 },
+  { id: "weights-bench", name: "Weights Bench", cat: "Fitness", m3: 0.4, kg: 30 },
+  { id: "weights-set", name: "Set Of Weights", cat: "Fitness", m3: 0.1, kg: 40 },
+
+  // ---- Boxes & Bags ----
   { id: "small-box", name: "Small Box", cat: "Boxes & Bags", m3: 0.036, kg: 7 },
   { id: "medium-box", name: "Medium Box", cat: "Boxes & Bags", m3: 0.07, kg: 10 },
   { id: "large-box", name: "Large Box", cat: "Boxes & Bags", m3: 0.125, kg: 15 },
   { id: "xl-box", name: "Extra Large Box", cat: "Boxes & Bags", m3: 0.216, kg: 20 },
+  { id: "box-books", name: "Box Of Books", cat: "Boxes & Bags", m3: 0.06, kg: 18 },
+  { id: "box-clothes", name: "Box Of Clothes", cat: "Boxes & Bags", m3: 0.07, kg: 10 },
   { id: "small-bag", name: "Small Bag", cat: "Boxes & Bags", m3: 0.05, kg: 5 },
   { id: "large-bag", name: "Large Bag", cat: "Boxes & Bags", m3: 0.1, kg: 8 },
   { id: "xl-bag", name: "Extra Large Bag", cat: "Boxes & Bags", m3: 0.15, kg: 12 },
+  { id: "bin-bag", name: "Bin Bag", cat: "Boxes & Bags", m3: 0.08, kg: 6 },
+  { id: "holdall", name: "Holdall", cat: "Boxes & Bags", m3: 0.06, kg: 8 },
   { id: "suitcase-small", name: "Small Suitcase", cat: "Boxes & Bags", m3: 0.044, kg: 8 },
   { id: "suitcase", name: "Medium Suitcase", cat: "Boxes & Bags", m3: 0.073, kg: 12 },
   { id: "suitcase-large", name: "Large Suitcase", cat: "Boxes & Bags", m3: 0.113, kg: 16 },
   { id: "suitcase-xl", name: "Extra Large Suitcase", cat: "Boxes & Bags", m3: 0.154, kg: 20 },
+  { id: "trunk", name: "Trunk / Storage Chest", cat: "Boxes & Bags", m3: 0.2, kg: 15 },
 ];
-const categoryOrder = ["Sofas", "Beds & Mattresses", "Wardrobes & Storage", "Tables & Chairs", "Appliances", "Boxes & Bags"];
+const categoryOrder = ["Sofas & Armchairs", "Beds & Mattresses", "Wardrobes & Storage", "Tables", "Chairs & Seating", "Appliances & Kitchen", "Electronics", "Mirrors, Art & Decor", "Garden & Outdoor", "Tools & DIY", "Fitness", "Boxes & Bags"];
 const floors = [
   { label: "Basement", above: 1 }, { label: "Ground floor", above: 0 },
   { label: "1st floor", above: 1 }, { label: "2nd floor", above: 2 },
@@ -75,14 +201,30 @@ const floors = [
   { label: "Above 6th floor", above: 7 },
 ];
 
+const LOGO = "/agm-logo.png";
+function Brand({ name, color }) {
+  const [ok, setOk] = useState(true);
+  if (ok) return (
+    <div className="rounded-lg overflow-hidden shrink-0 flex items-center justify-center" style={{ background: "#000", height: 42 }}>
+      <img src={LOGO} alt={name} onError={() => setOk(false)} style={{ height: 42, width: "auto", display: "block" }} />
+    </div>
+  );
+  return (
+    <div className="rounded-lg shrink-0 flex items-center px-2" style={{ background: color || theme.amber, height: 42 }}>
+      <span style={{ fontFamily: font.display, fontWeight: 700, color: theme.ink, letterSpacing: "-0.02em" }}>AGM</span>
+    </div>
+  );
+}
+
 const defaultSettings = {
-  businessName: "Approved Removals", phone: "01234 567 890",
+  businessName: "Approved Guys Move", phone: "01234 567 890", phone2: "",
   ownerPin: "1234", driverPin: "0000",
-  baseCallout: 120, perMile: 1.2, perM3: 45, perKg: 0.1,
-  perFloor: 15, liftFactor: 0.25, premiumMultiplier: 1.5,
-  packingMaterials: 90, minPrice: 150, vatEnabled: false,
-  vanCapacity: 20, extraMinCharge: 15, extraPerFloorM3: 6, extraFloorFlat: 15,
-  rating: 4.94, reviewsText: "based on 200+ completed moves",
+  baseCallout: 80, perMile: 1.3, perM3: 34, perKg: 0.04,
+  perFloor: 15, liftFactor: 0.25, premiumMultiplier: 1.45,
+  packingMaterials: 90, minPrice: 150, vatEnabled: true,
+  vanCapacity: 20, extraMinCharge: 20, extraPerFloorM3: 5, extraFloorFlat: 15,
+  rating: 4.94, reviewsText: "based on 200+ completed moves", oneManFactor: 0.7,
+  brandColor: "#F2A81D",
 };
 
 /* ================= pricing ================= */
@@ -98,8 +240,27 @@ function priceBreakdown(s, distance, volume, weight, floorFrom, floorTo, liftFro
   let standard = lines.reduce((a, l) => a + l.amount, 0);
   if (standard < s.minPrice) standard = s.minPrice;
   let premium = standard * s.premiumMultiplier + s.packingMaterials;
-  const vat = (n) => (s.vatEnabled ? n * 1.2 : n);
-  return { lines, standard: Math.round(vat(standard)), premium: Math.round(vat(premium)), vat: s.vatEnabled };
+  const rate = 0.2;
+  const gross = (n) => (s.vatEnabled ? Math.round(n * (1 + rate)) : Math.round(n));
+  return {
+    lines,
+    standardNet: Math.round(standard), premiumNet: Math.round(premium),
+    standard: gross(standard), premium: gross(premium),
+    vat: s.vatEnabled, vatRate: rate,
+  };
+}
+// Apply the 1-man discount to a quote. 2-man = full price (the baseline).
+function crewAdjust(quote, crew, s) {
+  const f = crew === 1 ? (s.oneManFactor || 0.7) : 1;
+  const g = (net) => (s.vatEnabled ? Math.round(net * f * 1.2) : Math.round(net * f));
+  return {
+    ...quote, crew, factor: f,
+    baseStandardNet: quote.standardNet, basePremiumNet: quote.premiumNet,
+    standardNet: Math.round(quote.standardNet * f),
+    premiumNet: Math.round(quote.premiumNet * f),
+    standard: g(quote.standardNet),
+    premium: g(quote.premiumNet),
+  };
 }
 function extraItemCharge(s, vol, kg, floorUnits = 0, extraFloors = 0) {
   const items = vol * s.perM3 + (s.perKg > 0 ? kg * s.perKg : 0);
@@ -168,7 +329,7 @@ function makeJob(booking) {
   return {
     id: booking.id || Date.now(), ref, price, pkg, details,
     distance: route.distance, inventory: inv, extras: [],
-    volume: t.volume, weight: t.weight, itemCount: t.count, crew: personCount(t.volume, t.weight),
+    volume: t.volume, weight: t.weight, itemCount: t.count, crew: booking.crew || personCount(t.volume, t.weight),
     pickup: { address: route.from, floor: floors[route.floorFrom].label, lift: route.liftFrom, time: details.date || "TBC", started: false, done: false, proof: null },
     dropoff: { address: route.to, floor: floors[route.floorTo].label, lift: route.liftTo, time: details.date || "TBC", started: false, done: false, proof: null },
   };
@@ -315,6 +476,7 @@ export default function App() {
   const [catalogue, setCatalogue] = useState(defaultCatalogue);
   const [jobs, setJobs] = useState(seedJobs);
   const [leads, setLeads] = useState([]);
+  const [menuOpen, setMenuOpen] = useState(false);
   const setSetting = (k, v) => setSettings((s) => ({ ...s, [k]: v }));
 
   useEffect(() => {
@@ -322,7 +484,7 @@ export default function App() {
     fetchLeads().then((ls) => { if (ls) setLeads(ls); });
   }, []);
 
-  const roles = [{ id: "customer", label: "Book" }, { id: "driver", label: "Driver" }, { id: "owner", label: "Owner" }];
+  const roles = [{ id: "customer", label: "Book a move" }, { id: "driver", label: "Driver portal" }, { id: "owner", label: "Owner / admin" }];
 
   return (
     <div style={{ background: theme.paper, minHeight: "100vh", fontFamily: font.body, color: theme.ink }}>
@@ -330,17 +492,28 @@ export default function App() {
       <header className="sticky top-0 z-20 border-b" style={{ background: theme.ink }}>
         <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between gap-2">
           <div className="flex items-center gap-2 min-w-0">
-            <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style={{ background: theme.amber }}><Truck size={20} color={theme.ink} /></div>
+            <Brand name={settings.businessName} color={settings.brandColor} />
             <div className="leading-tight truncate">
-              <div style={{ fontFamily: font.display, fontWeight: 700, color: "#fff", letterSpacing: "-0.02em" }}>{settings.businessName}</div>
-              <div className="text-xs" style={{ color: "#9AA0A6" }}>Home & office removals</div>
+              <div className="text-xs" style={{ color: "#9AA0A6" }}>Removals · Man &amp; Van · Delivery</div>
             </div>
           </div>
-          <div className="flex rounded-lg overflow-hidden shrink-0" style={{ border: "1px solid #2B2F36" }}>
-            {roles.map((r) => (
-              <button key={r.id} onClick={() => setView(r.id)} className="text-xs px-2.5 py-1.5 font-semibold"
-                style={{ background: view === r.id ? theme.amber : "transparent", color: view === r.id ? theme.ink : "#C7CBD1" }}>{r.label}</button>
-            ))}
+          <div className="flex items-center gap-3 shrink-0">
+            {view !== "customer" && <button onClick={() => setView("customer")} className="text-xs px-3 py-1.5 rounded-lg font-semibold" style={{ background: settings.brandColor, color: theme.ink }}>Customer site</button>}
+            <div className="relative">
+              <button onClick={() => setMenuOpen((o) => !o)} className="w-9 h-9 rounded-lg flex items-center justify-center" style={{ background: "#23262C", color: "#fff" }} aria-label="Menu"><MoreVertical size={18} /></button>
+              {menuOpen && <>
+                <div className="fixed inset-0 z-20" onClick={() => setMenuOpen(false)} />
+                <div className="absolute right-0 mt-2 w-48 rounded-xl overflow-hidden z-30 border shadow-lg" style={{ background: "#fff", borderColor: theme.line }}>
+                  <div className="px-4 pt-3 pb-1 text-xs font-semibold uppercase" style={{ color: theme.muted, letterSpacing: ".05em" }}>Menu</div>
+                  {roles.map((r) => (
+                    <button key={r.id} onClick={() => { setView(r.id); setMenuOpen(false); }} className="w-full text-left px-4 py-2.5 text-sm font-medium flex items-center justify-between" style={{ background: view === r.id ? theme.paper : "#fff", color: theme.ink }}>
+                      {r.label}{view === r.id && <Check size={15} color={theme.teal} />}
+                    </button>
+                  ))}
+                  <div className="px-4 py-2 text-xs border-t" style={{ borderColor: theme.line, color: theme.muted }}>Staff areas are PIN-protected.</div>
+                </div>
+              </>}
+            </div>
           </div>
         </div>
       </header>
@@ -364,11 +537,16 @@ function CustomerFlow({ settings, catalogue, onBook, onLead }) {
   const [pkg, setPkg] = useState(null);
   const [details, setDetails] = useState({ name: "", email: "", phone: "", date: "" });
   const [ref, setRef] = useState("");
+  const [quoteRef] = useState(() => "AGM-" + Math.floor(100000 + Math.random() * 899999));
+  const [crew, setCrew] = useState(2);
   const fullCat = [...catalogue, ...customItems];
   const volume = fullCat.reduce((a, it) => a + (cart[it.id] || 0) * it.m3, 0);
   const weight = fullCat.reduce((a, it) => a + (cart[it.id] || 0) * it.kg, 0);
   const itemCount = Object.values(cart).reduce((a, n) => a + n, 0);
   const quote = priceBreakdown(settings, route.distance, volume, weight, floors[route.floorFrom].above, floors[route.floorTo].above, route.liftFrom, route.liftTo);
+  const needsTwo = personCount(volume, weight) === 2; // big load -> 2-man only
+  const effCrew = needsTwo ? 2 : crew;
+  const aq = crewAdjust(quote, effCrew, settings); // crew-adjusted quote used from here on
   const steps = ["Route", "Your items", "Your price", "Book & pay"];
 
   const addCustomItem = (item) => {
@@ -389,20 +567,20 @@ function CustomerFlow({ settings, catalogue, onBook, onLead }) {
         {step === 1 && <RouteStep route={route} setRoute={setRoute} onNext={() => setStep(2)} />}
         {step === 2 && <ItemsStep catalogue={fullCat} customItems={customItems} addCustomItem={addCustomItem} removeCustomItem={removeCustomItem} cart={cart} setCart={setCart} volume={volume} weight={weight} itemCount={itemCount} vanCapacity={settings.vanCapacity} onBack={() => setStep(1)} onNext={() => setStep(3)} />}
         {step === 3 && (unlocked
-          ? <QuoteStep quote={quote} route={route} volume={volume} weight={weight} itemCount={itemCount} onPick={(p) => { setPkg(p); setStep(4); }} onBack={() => setStep(2)} />
-          : <LeadGate onBack={() => setStep(2)} onUnlock={(email, phone) => { setDetails((d) => ({ ...d, email, phone })); setUnlocked(true); onLead({ email, phone, total: quote.standard, route: `${route.from} → ${route.to}`, volume }); }} />)}
-        {step === 4 && <PayStep pkg={pkg} quote={quote} details={details} setDetails={setDetails} onBack={() => setStep(3)}
+          ? <QuoteStep settings={settings} quoteRef={quoteRef} quote={aq} route={route} crew={effCrew} setCrew={setCrew} needsTwo={needsTwo} cart={cart} catalogue={fullCat} volume={volume} weight={weight} itemCount={itemCount} onPick={(p) => { setPkg(p); setStep(4); }} onBack={() => setStep(2)} />
+          : <LeadGate settings={settings} onBack={() => setStep(2)} onUnlock={(email, phone) => { setDetails((d) => ({ ...d, email, phone })); setUnlocked(true); onLead({ email, phone, total: aq.standard, route: `${route.from} → ${route.to}`, volume }); }} />)}
+        {step === 4 && <PayStep settings={settings} pkg={pkg} quote={aq} crew={effCrew} details={details} setDetails={setDetails} onBack={() => setStep(3)}
           onPaid={() => {
-            const r = "AR-" + Math.floor(100000 + Math.random() * 899999);
-            setRef(r); onBook({ ref: r, route, cart, catalogue: fullCat, volume, weight, itemCount, pkg, price: pkg === "premium" ? quote.premium : quote.standard, details }); setStep(5);
+            setRef(quoteRef); onBook({ ref: quoteRef, route, cart, catalogue: fullCat, volume, weight, itemCount, pkg, crew: effCrew, price: pkg === "premium" ? aq.premium : aq.standard, details }); setStep(5);
           }} />}
       </>}
-      {step === 5 && <DoneStep settings={settings} ref_={ref} pkg={pkg} price={pkg === "premium" ? quote.premium : quote.standard} details={details} route={route} />}
+      {step === 5 && <DoneStep settings={settings} ref_={ref} pkg={pkg} price={pkg === "premium" ? aq.premium : aq.standard} details={details} route={route} />}
     </main>
   );
 }
 function Hero({ settings, onStart }) {
   const rating = settings.rating || 4.9;
+  const accent = settings.brandColor || theme.amber;
   return (
     <section className="pt-10 pb-6"><div className="grid md:grid-cols-2 gap-8 items-center">
       <div>
@@ -410,14 +588,14 @@ function Hero({ settings, onStart }) {
           <Pill tone="teal">Fully insured · DBS-checked crews</Pill>
         </div>
         <div className="mb-3 flex items-center gap-1.5">
-          {[0, 1, 2, 3, 4].map((i) => <Star key={i} size={16} color={theme.amber} fill={i < Math.round(rating) ? theme.amber : "none"} />)}
+          {[0, 1, 2, 3, 4].map((i) => <Star key={i} size={16} color={accent} fill={i < Math.round(rating) ? accent : "none"} />)}
           <span className="text-sm font-bold ml-1">{Number(rating).toFixed(2)}</span>
           <span className="text-xs" style={{ color: theme.muted }}>· {settings.reviewsText}</span>
         </div>
         <h1 style={{ fontFamily: font.display, fontWeight: 700, fontSize: "2.6rem", lineHeight: 1.02, letterSpacing: "-0.03em" }}>
-          Tell us what you're<br />moving. Get a price<br /><span style={{ color: theme.amberDk }}>in 60 seconds.</span></h1>
+          Tell us what you're<br />moving. Get a price<br /><span style={{ color: accent }}>in 60 seconds.</span></h1>
         <p className="mt-4 text-base" style={{ color: theme.muted, maxWidth: 420 }}>Add your items, pick your pickup and drop-off, and we'll build an instant fixed quote. Book now, our team does the lifting.</p>
-        <button onClick={onStart} className="mt-6 inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-base" style={{ background: theme.amber, color: theme.ink }}>Get my price <ArrowRight size={18} /></button>
+        <button onClick={onStart} className="mt-6 inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-base" style={{ background: accent, color: theme.ink }}>Get my price <ArrowRight size={18} /></button>
       </div>
       <div className="rounded-2xl border p-5" style={{ background: theme.card, borderColor: theme.line }}>
         <div className="flex items-center gap-3">
@@ -510,6 +688,27 @@ function ItemsStep({ catalogue, customItems, addCustomItem, removeCustomItem, ca
         <div className="flex justify-between text-xs mb-1" style={{ color: theme.muted }}><span>{vans} van{vans > 1 ? "s" : ""}</span><span>{volume.toFixed(2)} m³</span></div>
         <div className="h-3 rounded-full overflow-hidden mb-4" style={{ background: theme.paper }}><div style={{ width: `${fillPct}%`, height: "100%", background: theme.amber, transition: "width .3s" }} /></div>
         <Stat label="Items" value={itemCount} /><Stat label="Volume" value={`${volume.toFixed(2)} m³`} /><Stat label="Weight" value={`${Math.round(weight)} kg`} />
+
+        <div className="mt-4 pt-3 border-t" style={{ borderColor: theme.line }}>
+          <div className="text-sm font-semibold mb-2">Your item list {itemCount > 0 && <span style={{ color: theme.muted }}>({itemCount})</span>}</div>
+          {itemCount === 0 ? (
+            <div className="text-sm rounded-xl border border-dashed px-3 py-4 text-center" style={{ borderColor: theme.line, color: theme.muted }}>Nothing added yet. Tap + on any item and it'll appear here.</div>
+          ) : (
+            <div className="space-y-1.5 max-h-72 overflow-y-auto">
+              {catalogue.filter((it) => cart[it.id]).map((it) => (
+                <div key={it.id} className="flex items-center justify-between rounded-lg border px-2.5 py-1.5" style={{ borderColor: theme.line }}>
+                  <div className="min-w-0 pr-2"><div className="text-sm truncate">{it.name}</div></div>
+                  <div className="flex items-center gap-1.5 shrink-0">
+                    <button onClick={() => add(it.id, -1)} className="w-6 h-6 rounded-full border flex items-center justify-center" style={{ borderColor: theme.line }}><Minus size={12} /></button>
+                    <span className="w-5 text-center text-sm font-semibold">{cart[it.id]}</span>
+                    <button onClick={() => add(it.id, 1)} className="w-6 h-6 rounded-full flex items-center justify-center" style={{ background: theme.amber }}><Plus size={12} color={theme.ink} /></button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
         <button disabled={itemCount === 0} onClick={onNext} className="mt-4 w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-semibold" style={{ background: itemCount === 0 ? "#ccc" : theme.ink, color: "#fff", opacity: itemCount === 0 ? .7 : 1 }}>See my price <ChevronRight size={18} /></button>
         <button onClick={onBack} className="mt-2 w-full text-sm py-2" style={{ color: theme.muted }}><ChevronLeft size={14} className="inline" /> Back</button>
       </Card></div>
@@ -559,7 +758,7 @@ function CustomItemCard({ customItems, cart, add, addCustomItem, removeCustomIte
     </Card>
   );
 }
-function LeadGate({ onBack, onUnlock }) {
+function LeadGate({ settings, onBack, onUnlock }) {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const ok = /\S+@\S+\.\S+/.test(email) && phone.replace(/\D/g, "").length >= 7;
@@ -569,7 +768,7 @@ function LeadGate({ onBack, onUnlock }) {
       <Card>
         <div className="w-12 h-12 rounded-full flex items-center justify-center mb-3" style={{ background: theme.tealSoft }}><Check size={22} color={theme.teal} /></div>
         <h2 style={{ fontFamily: font.display, fontWeight: 600, fontSize: "1.25rem" }}>Your price is ready</h2>
-        <p className="text-sm mt-1 mb-4" style={{ color: theme.muted }}>Pop in your email and mobile and we'll show your fixed quote — and hold it for you.</p>
+        <p className="text-sm mt-1 mb-4" style={{ color: theme.muted }}>Pop in your email and mobile and we'll show your fixed quote — {settings.vatEnabled ? "prices include VAT" : "a clear fixed price"} — and hold it for you.</p>
         <div className="space-y-3">
           <div><label className="text-sm font-medium">Email</label><TextField value={email} onChange={setEmail} type="email" placeholder="you@email.com" /></div>
           <div><label className="text-sm font-medium">Mobile</label><TextField value={phone} onChange={setPhone} placeholder="07..." /></div>
@@ -580,23 +779,93 @@ function LeadGate({ onBack, onUnlock }) {
     </div>
   );
 }
-function QuoteStep({ quote, route, volume, weight, itemCount, onPick, onBack }) {
+function downloadQuote(settings, quoteRef, route, cart, catalogue, quote, volume, weight, itemCount) {
+  const items = catalogue.filter((it) => cart[it.id]).map((it) => `<tr><td>${cart[it.id]}×</td><td>${it.name}</td></tr>`).join("");
+  const vatLine = quote.vat ? `<tr><td>VAT (20%)</td><td style="text-align:right">£${(quote.standard - quote.standardNet).toLocaleString()}</td></tr>` : "";
+  const html = `<html><head><title>Quote ${quoteRef}</title><style>
+    body{font-family:Arial,sans-serif;color:#14161A;padding:32px;max-width:700px;margin:auto}
+    h1{margin:0} .muted{color:#6B7280} table{width:100%;border-collapse:collapse;margin-top:8px}
+    td{padding:4px 0;font-size:14px} .box{border:1px solid #E6E2D8;border-radius:12px;padding:16px;margin-top:16px}
+    .total{font-size:22px;font-weight:700}</style></head><body>
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <div><h1>${settings.businessName}</h1><div class="muted">Removals · Man &amp; Van · Delivery</div></div>
+      <div style="text-align:right"><div class="muted">Quote ref</div><div style="font-weight:700">${quoteRef}</div><div class="muted">${settings.phone}${settings.phone2 ? " / " + settings.phone2 : ""}</div></div>
+    </div>
+    <div class="box"><b>${route.from}</b> → <b>${route.to}</b><div class="muted">${route.distance} miles · ${itemCount} items · ${volume.toFixed(2)} m³ · ${Math.round(weight)} kg</div></div>
+    <div class="box"><div class="muted">Standard Removal</div><div class="total">£${quote.standard.toLocaleString()} ${quote.vat ? "(inc. VAT)" : ""}</div>
+      <table>${quote.vat ? `<tr><td>Subtotal</td><td style="text-align:right">£${quote.standardNet.toLocaleString()}</td></tr>${vatLine}` : ""}</table></div>
+    <div class="box"><b>Your items</b><table>${items}</table></div>
+    <p class="muted" style="font-size:12px;margin-top:24px">Fixed price quote. Valid 14 days. Call ${settings.phone} quoting ${quoteRef}.</p>
+    </body></html>`;
+  const w = window.open("", "_blank");
+  if (w) { w.document.write(html); w.document.close(); w.focus(); setTimeout(() => w.print(), 400); }
+}
+function QuoteStep({ settings, quoteRef, quote, route, crew, setCrew, needsTwo, cart, catalogue, volume, weight, itemCount, onPick, onBack }) {
   const [show, setShow] = useState(false);
+  const [showItems, setShowItems] = useState(false);
+  const chosen = catalogue.filter((it) => cart[it.id]);
+  const discount = quote.baseStandardNet - quote.standardNet; // net £ saved by 1-man
   return (<div>
     <button onClick={onBack} className="text-sm mb-3" style={{ color: theme.muted }}><ChevronLeft size={14} className="inline" /> Back to items</button>
+
+    {/* reference + phone bar */}
+    <div className="flex items-center justify-between flex-wrap gap-2 mb-4 rounded-xl border px-4 py-3" style={{ borderColor: theme.line, background: theme.card }}>
+      <div><span className="text-xs" style={{ color: theme.muted }}>Quote ref</span> <span className="font-mono font-semibold">{quoteRef}</span></div>
+      <div className="flex items-center gap-3">
+        <span className="text-sm" style={{ color: theme.muted }}>Questions? Call us</span>
+        <a href={`tel:${settings.phone}`} className="flex items-center gap-1.5 font-semibold" style={{ color: theme.teal }}><Phone size={15} /> {settings.phone}</a>
+        {settings.phone2 && <a href={`tel:${settings.phone2}`} className="flex items-center gap-1.5 font-semibold" style={{ color: theme.teal }}><Phone size={15} /> {settings.phone2}</a>}
+      </div>
+    </div>
+
+    {/* crew selector */}
+    <Card className="mb-4">
+      <div className="flex items-center justify-between flex-wrap gap-3">
+        <div>
+          <div className="text-sm font-semibold">How many movers?</div>
+          <div className="text-xs" style={{ color: theme.muted }}>{needsTwo ? "This load needs a 2-person crew." : "Small job? Save with 1 mover and lend a hand."}</div>
+        </div>
+        <div className="flex rounded-lg overflow-hidden border" style={{ borderColor: theme.line }}>
+          <button disabled={needsTwo} onClick={() => setCrew(1)} className="px-4 py-2 text-sm font-semibold" style={{ background: crew === 1 ? theme.ink : "#fff", color: needsTwo ? "#bbb" : crew === 1 ? "#fff" : theme.ink }}>
+            1 Man{!needsTwo && discount > 0 ? ` · save £${discount}` : ""}
+          </button>
+          <button onClick={() => setCrew(2)} className="px-4 py-2 text-sm font-semibold" style={{ background: crew === 2 ? theme.ink : "#fff", color: crew === 2 ? "#fff" : theme.ink }}>2 Man</button>
+        </div>
+      </div>
+      {crew === 1 && !needsTwo && (
+        <div className="mt-3 rounded-xl p-3 text-sm flex items-start gap-2" style={{ background: "#FBF0D6", color: theme.amberDk }}>
+          <span style={{ fontWeight: 700 }}>Please note:</span>
+          <span>With 1 mover you'll need to <b>help carry heavy or large items</b> (sofas, wardrobes, appliances, beds). Choose 2 Man if you'd rather not lift. You'll confirm this before paying.</span>
+        </div>
+      )}
+    </Card>
+
     <div className="grid md:grid-cols-2 gap-5">
-      <PackageCard title="Standard Removal" blurb="Our team loads, transports and unloads your belongings." price={quote.standard} accent={theme.amber} dark={false} vat={quote.vat}
-        features={["Trained crew to load & move", "Goods-in-transit cover", "Free 48-hour cancellation", "Up to 30 mins waiting time"]} onPick={() => onPick("standard")} />
-      <PackageCard title="Premium Full Pack & Move" blurb="We pack, dismantle & reassemble, and move you." price={quote.premium} accent={theme.teal} dark vat={quote.vat}
+      <PackageCard title="Standard Removal" blurb="Our team loads, transports and unloads your belongings." price={quote.standard} accent={settings.brandColor || theme.amber} dark={false} vat={quote.vat} onDownload={() => downloadQuote(settings, quoteRef, route, cart, catalogue, quote, volume, weight, itemCount)}
+        features={[`${crew} mover${crew > 1 ? "s" : ""} to load & move`, "Goods-in-transit cover", "Free 48-hour cancellation", "Up to 30 mins waiting time"]} onPick={() => onPick("standard")} />
+      <PackageCard title="Premium Full Pack & Move" blurb="We pack, dismantle & reassemble, and move you." price={quote.premium} accent={theme.teal} dark vat={quote.vat} onDownload={() => downloadQuote(settings, quoteRef, route, cart, catalogue, quote, volume, weight, itemCount)}
         features={["Full packing service", "All packing materials included", "Furniture dismantle & reassembly", "Extended wait time up to 2 hours", "Enhanced protection cover"]} onPick={() => onPick("premium")} />
     </div>
-    <Card className="mt-5"><button onClick={() => setShow(!show)} className="w-full flex items-center justify-between"><span className="text-sm font-semibold">How your price is worked out</span><ChevronRight size={16} style={{ transform: show ? "rotate(90deg)" : "none" }} /></button>
+
+    {/* full item list */}
+    <Card className="mt-5"><button onClick={() => setShowItems(!showItems)} className="w-full flex items-center justify-between"><span className="text-sm font-semibold">Your items ({itemCount})</span><ChevronRight size={16} style={{ transform: showItems ? "rotate(90deg)" : "none" }} /></button>
+      {showItems && <div className="mt-3 grid sm:grid-cols-2 gap-x-6 gap-y-1">
+        {chosen.map((it) => <div key={it.id} className="flex justify-between text-sm"><span>{it.name}</span><span className="font-semibold">{cart[it.id]}×</span></div>)}
+      </div>}
+    </Card>
+
+    <Card className="mt-3"><button onClick={() => setShow(!show)} className="w-full flex items-center justify-between"><span className="text-sm font-semibold">How your price is worked out</span><ChevronRight size={16} style={{ transform: show ? "rotate(90deg)" : "none" }} /></button>
       {show && <div className="mt-3 space-y-1.5"><div className="text-xs mb-2" style={{ color: theme.muted }}>{route.from} → {route.to} · {route.distance} mi · {itemCount} items · {volume.toFixed(2)} m³ · {Math.round(weight)} kg</div>
         {quote.lines.map((l, i) => <div key={i} className="flex justify-between text-sm"><span style={{ color: theme.muted }}>{l.label}</span><span>£{l.amount.toFixed(2)}</span></div>)}
-        <div className="flex justify-between text-sm font-semibold pt-2 border-t" style={{ borderColor: theme.line }}><span>Standard total{quote.vat ? " (inc. VAT)" : ""}</span><span>£{quote.standard}</span></div></div>}</Card>
+        {quote.vat ? <>
+          <div className="flex justify-between text-sm pt-2 border-t" style={{ borderColor: theme.line }}><span style={{ color: theme.muted }}>Subtotal</span><span>£{quote.standardNet.toLocaleString()}</span></div>
+          <div className="flex justify-between text-sm"><span style={{ color: theme.muted }}>VAT (20%)</span><span>£{(quote.standard - quote.standardNet).toLocaleString()}</span></div>
+          <div className="flex justify-between text-sm font-semibold"><span>Standard total (inc. VAT)</span><span>£{quote.standard.toLocaleString()}</span></div>
+        </> : <div className="flex justify-between text-sm font-semibold pt-2 border-t" style={{ borderColor: theme.line }}><span>Standard total</span><span>£{quote.standard.toLocaleString()}</span></div>}
+      </div>}</Card>
   </div>);
 }
-function PackageCard({ title, blurb, price, features, accent, dark, onPick, vat }) {
+function PackageCard({ title, blurb, price, features, accent, dark, onPick, onDownload, vat }) {
   return (<div className="rounded-2xl overflow-hidden border flex flex-col" style={{ borderColor: theme.line, background: dark ? theme.ink : theme.card }}>
     <div className="p-5" style={{ background: accent, color: dark ? "#fff" : theme.ink }}><div style={{ fontFamily: font.display, fontWeight: 700, fontSize: "1.15rem" }}>{title}</div><div className="text-sm mt-1 opacity-90">{blurb}</div></div>
     <div className="p-5 flex-1 flex flex-col" style={{ color: dark ? "#fff" : theme.ink }}>
@@ -604,12 +873,16 @@ function PackageCard({ title, blurb, price, features, accent, dark, onPick, vat 
       <div className="text-xs mb-4" style={{ color: dark ? "#9AA0A6" : theme.muted }}>{vat ? "Includes VAT" : "VAT not applied"} · fixed price</div>
       <ul className="space-y-2 flex-1">{features.map((f) => <li key={f} className="flex items-start gap-2 text-sm"><Check size={16} color={accent} className="mt-0.5 shrink-0" /> {f}</li>)}</ul>
       <button onClick={onPick} className="mt-5 w-full py-3 rounded-xl font-semibold" style={{ background: accent, color: dark ? "#fff" : theme.ink }}>Choose this</button>
+      {onDownload && <button onClick={onDownload} className="mt-2 w-full py-2 rounded-xl text-sm font-medium border" style={{ borderColor: dark ? "#3A3F47" : theme.line, color: dark ? "#fff" : theme.ink }}>Download my quote (PDF)</button>}
     </div></div>);
 }
-function PayStep({ pkg, quote, details, setDetails, onBack, onPaid }) {
+function PayStep({ settings, pkg, quote, crew, details, setDetails, onBack, onPaid }) {
   const price = pkg === "premium" ? quote.premium : quote.standard;
+  const net = pkg === "premium" ? quote.premiumNet : quote.standardNet;
+  const [helpAck, setHelpAck] = useState(false);
   const set = (k, v) => setDetails((d) => ({ ...d, [k]: v }));
-  const ready = details.name && details.email && details.phone && details.date;
+  const needAck = crew === 1;
+  const ready = details.name && details.email && details.phone && details.date && (!needAck || helpAck);
   return (<div className="grid md:grid-cols-2 gap-5">
     <Card><button onClick={onBack} className="text-sm mb-3" style={{ color: theme.muted }}><ChevronLeft size={14} className="inline" /> Back</button>
       <h2 style={{ fontFamily: font.display, fontWeight: 600, fontSize: "1.2rem" }}>Your details</h2>
@@ -622,7 +895,20 @@ function PayStep({ pkg, quote, details, setDetails, onBack, onPaid }) {
     <Card><h2 style={{ fontFamily: font.display, fontWeight: 600, fontSize: "1.2rem" }}>Payment</h2>
       <div className="rounded-xl p-4 mt-3 mb-4" style={{ background: theme.paper }}>
         <div className="flex justify-between text-sm"><span style={{ color: theme.muted }}>Package</span><span className="font-semibold">{pkg === "premium" ? "Premium Full Pack & Move" : "Standard Removal"}</span></div>
-        <div className="flex justify-between mt-2 items-end"><span className="text-sm" style={{ color: theme.muted }}>Total to pay</span><span style={{ fontFamily: font.display, fontWeight: 700, fontSize: "1.8rem" }}>£{price.toLocaleString()}</span></div></div>
+        <div className="flex justify-between text-sm mt-2"><span style={{ color: theme.muted }}>Crew</span><span className="font-semibold">{crew} mover{crew > 1 ? "s" : ""}{crew === 1 ? " (you help)" : ""}</span></div>
+        {quote.vat && <>
+          <div className="flex justify-between text-sm mt-2"><span style={{ color: theme.muted }}>Subtotal</span><span>£{net.toLocaleString()}</span></div>
+          <div className="flex justify-between text-sm mt-1"><span style={{ color: theme.muted }}>VAT (20%)</span><span>£{(price - net).toLocaleString()}</span></div>
+        </>}
+        <div className="flex justify-between mt-2 items-end pt-2 border-t" style={{ borderColor: theme.line }}><span className="text-sm" style={{ color: theme.muted }}>Total to pay{quote.vat ? " (inc. VAT)" : ""}</span><span style={{ fontFamily: font.display, fontWeight: 700, fontSize: "1.8rem" }}>£{price.toLocaleString()}</span></div></div>
+
+      {needAck && (
+        <label className="flex items-start gap-2 rounded-xl p-3 mb-4 text-sm cursor-pointer" style={{ background: "#FBF0D6", color: theme.amberDk }}>
+          <input type="checkbox" checked={helpAck} onChange={(e) => setHelpAck(e.target.checked)} className="mt-0.5" />
+          <span>I've chosen <b>1 mover</b> and understand I'll need to <b>help carry heavy and large items</b> on the day.</span>
+        </label>
+      )}
+
       <div className="rounded-xl border p-4 space-y-3" style={{ borderColor: theme.line }}>
         <div className="flex items-center gap-2 text-sm font-medium"><CreditCard size={16} /> Card details</div>
         <div className="px-3 py-2 rounded-lg border text-sm" style={{ borderColor: theme.line, color: theme.muted }}>4242 4242 4242 4242</div>
@@ -630,6 +916,7 @@ function PayStep({ pkg, quote, details, setDetails, onBack, onPaid }) {
         <div className="flex items-center gap-1.5 text-xs" style={{ color: theme.muted }}><Lock size={12} /> Demo checkout — live site uses Stripe. Card is saved so on-the-day extras can be charged to it.</div>
       </div>
       <button disabled={!ready} onClick={onPaid} className="mt-4 w-full py-3 rounded-xl font-semibold flex items-center justify-center gap-2" style={{ background: ready ? theme.teal : "#ccc", color: "#fff", opacity: ready ? 1 : .7 }}><Lock size={16} /> Pay £{price.toLocaleString()} & book</button>
+      {needAck && !helpAck && <div className="text-xs mt-2 text-center" style={{ color: theme.muted }}>Tick the box above to confirm you'll help with the lifting.</div>}
     </Card></div>);
 }
 function DoneStep({ settings, ref_, pkg, price, details, route }) {
@@ -1114,6 +1401,7 @@ function PricingTab({ settings, setSetting }) {
     <Row label="Per floor (no lift)" hint="Per floor above ground, each address" k="perFloor" prefix="£" />
     <Row label="Lift factor" hint="Floors cost this fraction with a lift" k="liftFactor" step={0.05} />
     <Row label="Premium multiplier" hint="Premium = Standard × this" k="premiumMultiplier" step={0.1} />
+    <Row label="1-man price factor" hint="1-man job costs this share of 2-man (0.7 = 30% cheaper)" k="oneManFactor" step={0.05} />
     <Row label="Packing materials" hint="Added to Premium only" k="packingMaterials" prefix="£" />
     <Row label="Minimum price" hint="Never quote below this" k="minPrice" prefix="£" />
     <Row label="Extra-item minimum" hint="Floor for on-site add-ons" k="extraMinCharge" prefix="£" />
@@ -1156,9 +1444,19 @@ function BrandTab({ settings, setSetting }) {
     <div className="space-y-3 mt-3 max-w-md">
       <div><label className="text-sm font-medium">Business name</label><TextField value={settings.businessName} onChange={(v) => setSetting("businessName", v)} /></div>
       <div><label className="text-sm font-medium">Phone number</label><TextField value={settings.phone} onChange={(v) => setSetting("phone", v)} /></div>
+      <div><label className="text-sm font-medium">Second phone (optional)</label><TextField value={settings.phone2 || ""} onChange={(v) => setSetting("phone2", v)} /></div>
       <div><label className="text-sm font-medium">Owner PIN</label><TextField value={settings.ownerPin} onChange={(v) => setSetting("ownerPin", v)} /></div>
       <div><label className="text-sm font-medium">Driver PIN</label><TextField value={settings.driverPin} onChange={(v) => setSetting("driverPin", v)} /></div>
       <div><label className="text-sm font-medium">Review score (shown on site)</label><NumberField value={settings.rating} onChange={(v) => setSetting("rating", v)} step={0.01} style={{ width: 150 }} /></div>
       <div><label className="text-sm font-medium">Reviews caption</label><TextField value={settings.reviewsText} onChange={(v) => setSetting("reviewsText", v)} /></div>
+      <div><label className="text-sm font-medium">Brand colour</label>
+        <div className="flex items-center gap-2 mt-1 flex-wrap">
+          <input type="color" value={settings.brandColor || "#F2A81D"} onChange={(e) => setSetting("brandColor", e.target.value)} style={{ width: 44, height: 36, border: "none", background: "none", cursor: "pointer" }} />
+          {["#F2A81D", "#2563EB", "#14584C", "#C0392B", "#7C3AED", "#0EA5E9", "#EA580C"].map((c) => (
+            <button key={c} onClick={() => setSetting("brandColor", c)} className="w-7 h-7 rounded-full border" style={{ background: c, borderColor: theme.line }} />
+          ))}
+        </div>
+        <div className="text-xs mt-1" style={{ color: theme.muted }}>Sets the accent colour across the site.</div>
+      </div>
     </div></Card>);
 }
